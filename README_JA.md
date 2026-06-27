@@ -1,6 +1,6 @@
-MIT License
-PreRelease v2.3
-AI-Native Development Protocol
+MIT License   
+PreRelease v2.3   
+AI-Native Development Protocol    
 
 ![AnchorSpec](assets/ogp.png)
 
