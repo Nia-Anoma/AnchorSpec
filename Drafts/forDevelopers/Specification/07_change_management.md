@@ -68,7 +68,7 @@ ApprovedとなったCRはSpecへ昇格できる。
 ### FreezeSpec
 
 実装を開始する前にSpecをFreezeする。   
-FreezeされたSpecは実装および検証の基準となる。   
+FreezeSpecは実装および検証の基準となる。   
 Freezeの目的は仕様ドリフトを防ぎ、実装・検証・レビューが同一の基準を参照できる状態を維持することである。   
 Freeze後も変更提案は可能である。   
 ただし、それらは新しいCRとして管理され、現在のFreeze対象へ直接反映されない。   
@@ -82,11 +82,11 @@ Freezeによって以下が保証される。
 
 ### ThawSpec and Build Planning
 
-FreezeされたSpecはそのままでは実装できない。   
+FreezeSpecはそのままでは実装できない。   
 実装を開始する際はSpecをThawし、実装可能な状態へ展開する。   
 Thaw時には以下を実施する。   
 
-- FreezeされたSpecを読み込む
+- FreezeSpecを読み込む
 - ImplContextを適用する
 - 実装制約を解決する
 - Build Planを生成する
@@ -135,7 +135,7 @@ Verifyは以下の観点から確認を行う。
 Verifyの責務は問題の発見である。   
 Verifyは修正を行わない。   
 
-発見された問題はIssueまたはCRとして記録される。   
+発見された問題はCRのIssueを生成する。   
 問題が存在する場合はBuild Loopへ戻る。   
 
 ---
@@ -158,8 +158,8 @@ Runtime Confirmationの責任はVerifyではなくプロジェクト側にある
 
 ### Issue Recording
 
-問題、懸念事項、改善案が発見された場合はIssueとして記録する。   
-Issueは新鮮なうちに記録することを推奨する。   
+問題、懸念事項、改善案が発見された場合は CR の Issue として記録する。   
+Issue は新鮮なうちに記録することを推奨する。   
 
 記録を後回しにすると、   
 
@@ -169,14 +169,14 @@ Issueは新鮮なうちに記録することを推奨する。
 
 が失われる可能性がある。   
 
-Issueはバグだけを意味しない。   
+Issue はバグだけを意味しない。   
 
 - 技術的負債
 - 改善提案
 - 未解決事項
 - 将来検討事項
 
-もIssueとして扱う。   
+も Issue として扱う。   
 
 ### Build Loop Completion
 
@@ -185,9 +185,9 @@ Issueはバグだけを意味しない。
 1. Buildが成功している
 2. Verifyが完了している
 3. Runtime Confirmationが完了している
-4. 発見されたIssueが記録されている
+4. 発見された Issue が記録されている
 
-Issueが残存していてもBuild Loopは完了できる。   
+Issue が残存していてもBuild Loopは完了できる。   
 AnchorSpecの目的は既知の問題を管理可能な状態に保つことである。   
 既知の問題を失わず、次の開発サイクルへ正しく引き継ぐことである。   
 

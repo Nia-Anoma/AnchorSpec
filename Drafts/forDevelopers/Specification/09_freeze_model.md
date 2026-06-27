@@ -3,156 +3,99 @@
 
 ---
 
-## Reference Model
+## Freeze Model
 
-Referenceは、AnchorSpecを理解し運用するための参照層である。   
-
-- Referenceは、新しい仕様を定義しない。
-- Referenceは、新しい運用手順を定義しない。
-
-Referenceの目的は、SpecificationおよびOperationに定義された内容を横断的に整理し、   
-利用者が適切な判断を行えるよう支援することである。   
+Freezeは、Specの特定時点を変更不能な参照点として固定する操作である。   
+**FreezeされたSpec（FreezeSpec）は、実装・検証・レビューにおける共通の基準として扱われる**。    
+Freezeは変更を禁止するためではなく、同一の基準を複数の工程で共有するために存在する。   
 
 ---
 
-## Purpose
+## Freeze Purpose
 
-Referenceは以下を目的とする。   
+Freezeは以下を目的とする。   
 
-- AnchorSpec全体の構造を理解しやすくする
-- 関連する概念同士の関係を整理する
-- 判断に必要な情報を横断的に提供する
-- 利用者が迷わず適切な情報へ到達できるよう支援する
+- 実装対象を固定する
+- 検証対象を固定する
+- レビュー対象を固定する
+- 再現可能な基準を保持する
+- 仕様ドリフトを防ぐ
 
-Referenceは仕様そのものではなく、仕様を理解するための案内役である。   
-
----
-
-## Reference Scope
-
-Referenceには以下のような情報を含めることができる。   
-
-- Concept Map
-- Responsibility Matrix
-- Routing Table
-- Relationship Diagram
-- Chapter Map
-- Terminology
-- FAQ
-- Examples
-
-これらはSpecificationを補助するための参照情報であり、独立した規則として扱われない。   
+**FreezeはSource of Truthのスナップショットであり**、以降の変更は新しい履歴として扱われる。    
 
 ---
 
-## Concept Map
+## FreezeSpec
 
-Concept Mapは、AnchorSpecを構成する概念同士の関係を視覚的または論理的に整理する。   
+FreezeSpecはFreeze時点のSpecを表す。   
+**FreezeSpecは変更してはならない。**   
+新しい要求や改善案が発生した場合でも、FreezeSpecを直接編集することは認められない。   
 
-例えば、   
-
-- IntentとSpecの関係
-- SpecとCRの関係
-- VerifyとIssueの関係
-- FreezeとThawの関係
-
-などを整理するために利用される。   
-
-Concept Mapは構造理解を支援するための資料であり、新しい仕様を追加するものではない。   
+必要な変更はGapおよびCRを経由して、新しいSpecとして管理される。   
 
 ---
 
-## Responsibility Matrix
+## Thaw
 
-Responsibility Matrixは、各オブジェクトまたは各レイヤーの責務を整理する。   
-
-例えば、   
-
-- Verifyは何を担当するのか
-- Change Managementは何を担当するのか
-- Runtime Confirmationは誰の責務なのか
-
-などを一覧として整理できる。   
-
-Responsibility Matrixは責務を理解するための資料であり、新たな責任範囲を定義するものではない。   
+FreezeSpecはそのままでは実装対象にならない。   
+**実装を開始する際はFreezeSpecをThawし、現在のImplContextを適用した作業コンテキストを生成する**。   
+ThawはFreezeSpecを変更する操作ではない。    
+Thawによって生成される作業状態は一時的なものであり、FreezeSpecは常に不変のまま保持される。    
 
 ---
 
-## Routing Reference
+## Freeze Relationship
 
-Routing Referenceは、検出結果や変更要求がどの経路を通るのかを示す。   
+Freezeは以下のライフサイクルに属する。   
 
-例えば、   
+Spec   
+　↓    
+Freeze   
+　↓   
+FreezeSpec   
+　↓   
+Thaw    
+　↓   
+Build Plan   
+　↓   
+Impl    
+　↓   
+BuiltImpl   
+　↓   
+Verify   
 
-- Findingはどこへ返されるか
-- CRはどのようにSpecへ昇格するか
-- Build LoopはどのようにVerifyへ接続されるか
-
-などの関係を整理する。   
-
-Routing Referenceは処理の流れを説明するものであり、運用手順そのものではない。   
-
----
-
-## Chapter Map
-
-Chapter Mapは、各章が扱う責務を整理する。   
-
-これにより、   
-
-- どの概念がどの章で定義されているか
-- 詳細を確認するためにどこを参照すべきか
-
-を容易に理解できる。   
+FreezeはBuild Loopの開始点であり、VerifyはFreezeSpecを基準として整合性を確認する。   
 
 ---
 
-## Examples
+## Freeze Guarantees
 
-Referenceには理解を補助するための例を掲載できる。   
+Freezeは以下を保証する。　　　
 
-Examplesは、   
-
-- Specificationの利用例
-- Operationの利用例
-- Verifyの判断例
-- Change Managementの利用例
-
-などを示すことができる。   
-
-Examplesは説明を目的とするものであり、仕様そのものではない。   
+- 実装基準の固定
+- 検証基準の固定
+- レビュー基準の固定
+- 再現可能な参照点
 
 ---
 
-## Non-Authority
+## Freeze Non-Guarantees
 
-Referenceは以下を行わない。   
+Freezeは以下を保証しない。　　　
 
-- Specificationを定義しない
-- Operationを定義しない
-- Governanceを定義しない
-- プロジェクト固有の判断を行わない
-- 承認を行わない
+- 実装の正しさ
+- ビルド成功
+- Runtime Confirmation
+- ユーザー要求の妥当性
+- 将来変更の禁止
 
-Referenceはあくまで既存の仕様と運用を理解するための参照層である。   
-
----
-
-## Relationship with Other Documents
-
-ReferenceはSpecification、Operation、およびGovernanceを補助する。   
-
-- Specificationは構造と規則を定義する
-- Operationは利用手順を定義する
-- Governanceは責任・監査・規制との接続を定義する
-- Referenceはそれらを横断的に参照・整理する
-
-Reference自身は、新しいルールを生み出さない。   
+Freezeはあくまで参照点を固定する操作であり、品質や正しさそのものを保証するものではない。　　　
 
 ---
 
 Previous : [検証モデル](./08_verify_model.md)
 
-Next : [状態遷移](./10_state_transition.md)
+Next : [実装モデル](./10_implementation_model.md)
 
 Back to : [Index](./index.md)
+

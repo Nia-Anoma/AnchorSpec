@@ -94,7 +94,7 @@ AnchorSpecの要素はまず、以下のレイヤーに分けられる。
 
 ---
 
-## スレッド レイヤー構成要素
+## スレッド レイヤー　構成要素
 
 Thread Layerに含まれる主要要素は以下である。
 
@@ -107,6 +107,20 @@ Thread Layerに含まれる主要要素は以下である。
 
 ---
 
+## Spec Registration Unit
+
+Spec Registration Unit
+├─ Feature Spec (F-xxxx)
+├─ Rule Spec (R-xxxx)
+├─ Definition Spec (D-xxxx)
+└─ Constraint Spec (C-xxxx)
+
+SpecはApproved CRを受け取り、Spec Registration Unitとして保持する。   
+CRの必須項目はSpec Registration Unitへ必ず継承される。    
+Feature SpecはBuild / Thaw / Verifyの主要単位になる。   
+
+---
+
 ### Characteristics
 * 開発対象そのものを保持する
 * 状態として参照される
@@ -115,27 +129,30 @@ Thread Layerに含まれる主要要素は以下である。
 
 ---
 
-## オペレーション　レイヤー構成要素
+## オペレーション　レイヤー　構成要素
 
 Operation Layerは以下の管理コマンドにより構成される。   
 Operation Layerは他レイヤーのオブジェクトに対する操作コマンド群と分類できる。
 
-Gap-command {
-  - emit-cr
-}
-CR-command{
-  - review
-  - approve
-  - reject
-}
-Spec-command {
-  - freeze
-  - thaw
-  - apply_cr
-}
-Verify-command {
-  - verify
-}
+Gap-command {   
+　emit-cr   
+}   
+
+CR-command {   
+　review   
+　approve   
+　reject   
+}   
+
+Spec-command {   
+　freeze   
+　thaw   
+　apply_cr   
+}   
+
+Verify-command {    
+　verify   
+}   
 
 オペレーションレイヤーは以下の誓約を持つ   
 - GapItem は Spec に直接入らない
@@ -153,7 +170,7 @@ Verify-command {
 
 ---
 
-## パラメータ　レイヤー構成要素
+## パラメータ　レイヤー　構成要素
 
 パラメータレイヤーはスレッド、または外部ファイル(Markdown形式)に特定の項目を記載したもので構成される。   
 
@@ -165,45 +182,40 @@ Verify-command {
 ■ ImplContext   
 ターゲットプラットフォームや実装言語など、ビルドに必要な情報を保持する。   
 
-ImplContext {
-  - TargetPlatform：ターゲットプラットフォーム情報
-  - Build Language：使用言語
-  - Option(1～n)：プロジェクトの要求に応じて必要な情報を与えてください。この情報はBuild Plan及びImplementationで使用する。
-}
+ImplContext {   
+　TargetPlatform：ターゲットプラットフォーム情報   
+　Build Language：使用言語    
+　Option(1～n)：プロジェクトの要求に応じて必要な情報を与える。   
+　　　　　　　　この情報はBuild Plan及びImplementationで使用する。    
+}   
 
 ■ CR(Change Request)   
 Change Requestの承認判断、及び承認履歴の管理に使用する。   
 
-CR {
-  - Why
-  - Reason
-  - What
-  - How
-  - Who
-}
+CR {   
+　Why(必須)   
+　Reason(必須)   
+　What(必須)  
+　Unit(必須) 
+　How(任意)   
+　Who(任意)
+　Impact(任意)
+　Discussion(任意)   
+}   
+
+Unit : Feature / Rule / Definition / Constraint   
 
 ※ パラメータレイヤーにおけるメモリの信頼性は低いです。   
 ※ スレッド形式で残す場合でも、AIに尋ねて追跡するのは危険です。   
 ※ 最低限、Whyだけでも別口で保存するなどして履歴を残してください。   
+※ Whyだけでも最低限残してほしいですが、必須項目は可能な限り残してください。
 
 ■ Build Plan   
 AnchorSpecでは、Freezeで不変となったSpecをSource Of Trutuとして、   
-実装時はFreezeされたSpecをThawすることでビルド対象とすることが出来る。    
+実装時はFreezeされたSpecをThawすることでビルド対象とすることが出来る。
+    
 Build(Generator)に関してAnchorSpecは、ビルドプランという情報をユーザに提示する。   
 ユーザはビルドプランを確認の上、ビルドの承認を行う。   
-
-ビルドプランには、以下の情報が書き込まれる。   
-
-- target-spec : thawで解凍済みのSpec(Active Implementation Target)。複数指定可能。   
-- ref-context : ImplContext   
-- options : link_library, input_binary, target_files, forbidden_files, verification.   
-- expected_output :
-  - modified files
-  - generated files
-  - build artifacts
-- risk_notes :
-  - F-01234Spec and F-05678Spec may conflict in API boundary
-  - implementation feasibility is not guaranteed by Frozen Spec
 
 ---
 
@@ -266,10 +278,22 @@ Parameter Layerは、運用上の前提条件を扱うLayerである。
 
 Build Plan は、AIが勝手に実装へ突っ込む前の“発注確認書”である。   
 
-AI「このFrozen Spec群を、こういう依存・制約・検証条件で実装します」   
+AI「このFreezeSpec群を、こういう依存・制約・検証条件で実装します」   
 人間「その計画でOK / ここだけ修正」   
 AI「ではImplContextに落として実装します」   
 といったやり取りをするフェーズと考えて問題ない。
+
+---
+
+## ビルドプラン
+
+FreezeSpecBuildPlan {
+  id: 任意の文字列
+  unit: Feature / Rule / Definition / Constraint
+  why: なぜ必要か
+  what: 何を作るのか
+  Source: Build対象となったFreezeSpec
+}
 
 ---
 
@@ -293,25 +317,25 @@ thaw "F-01234_spec"
 thaw "F-05678_spec"
 ↓
 "F-01234Spec" と "F-05678Spec" が Active Implementation Target になる。   
-**ThawしてFrozenになる**ではなく、**Frozen SpecをThawして、実装対象として開く**が近い。
+**ThawしてFrozenになる**ではなく、**FreezeSpecをThawして、実装対象として開く**が近い。
 
 ビルドまで含めた流れはこのようになる。   
 
-Frozen Spec
-  ↓ thaw
-Active Implementation Target
-  ↓
-Build Plan 出力
-  ↓
-Prompt Input Phase
-  ↓
-ImplContext 生成/参照
-  ↓
-Build / Implementation
-  ↓
-Build Result
-  ↓
-Verify
+FreezeSpec   
+　↓ thaw   
+Active Implementation Target   
+　↓   
+Build Plan 出力   
+　↓   
+Prompt Input Phase   
+　↓   
+ImplContext 生成/参照   
+　↓   
+Build / Implementation   
+　↓   
+Build Result   
+　↓   
+Verify   
 
 ---
 

@@ -1,6 +1,10 @@
 # AnchorSpec - Specification
 # 検証モデル
 
+---
+
+# Verify の責務
+
 AnchorSpecにおけるVerifyは、**実装や仕様を修正する主体ではない**。   
 Verifyの責務は、Intent・Spec・Implの間に存在する不整合、欠落、逸脱を検出し、その結果を適切な経路へ返すことである。   
 
@@ -22,7 +26,7 @@ Verifyは以下を責務とする。
 - SpecとImplの不整合を検出する
 - IntentとSpecの逸脱を検出する
 - 実装漏れや検証漏れを検出する
-- 検出結果をIssue、Gap、またはReview対象として返す
+- 検出結果をGap対象として返す
 
 Verifyは問題を検出するが、問題を解決する主体ではない。   
 解決のための修正、承認、仕様変更は他の責務として扱われる。   
@@ -34,11 +38,11 @@ Verifyは問題を検出するが、問題を解決する主体ではない。
 Verifyは以下の情報を入力として参照する。   
 
 - Intent
-- Active Spec または FreezeされたSpec
-- Impl または Build成果物
+- Active Spec または FreezeSpec
+- BuiltImpl
 - ImplContext
 - Build Plan
-- 関連するIssue、CR、Review記録
+- 関連するCR記録
 
 Verifyは、単一の成果物だけを見るのではなく、必要に応じて複数の層を横断して確認する。   
 たとえば、実装がSpecを満たしていても、そのSpec自体がIntentから逸脱している可能性がある。   
@@ -61,9 +65,8 @@ Findingは以下のような状態を持つことができる。
 
 VerifyはFindingを返すが、そのFindingをどのように扱うかは内容によって異なる。
 
-- 実装上の不備や未整理の懸念はIssueとして記録される
-- Spec変更が必要な内容はGapまたはCRへ返される
-- Reviewや追加判断が必要な内容はReview対象として保持される
+- 実装上の不備や未整理の懸念は CR に Issue として記録される
+- Spec変更が必要な内容はGapへ返される
 
 Verifyは出力先を直接確定する主体ではないが、少なくとも「どの種別の問題であるか」を識別可能でなければならない。   
 
@@ -85,8 +88,6 @@ Verifyは以下を検証対象とする。
 - ビジネス上の価値判断
 - プロジェクト責任者による採用判断
 - 法令・規制・契約への適合性そのもの
-
-これらはRuntime Confirmation、Review、またはプロジェクト責任者の責務として扱われる。   
 
 ---
 
@@ -163,9 +164,9 @@ Verifyで発見されたFindingは、その内容に応じて適切な経路へ�
 
 ---
 
-1. Issueへ返す場合   
+1. CR の Issue へ返す場合   
 
-以下のようなFindingはIssueとして記録される。   
+以下のようなFindingはCR の Issueとして記録される。   
 
 - 実装上の不備
 - 未確定の懸念
@@ -173,13 +174,13 @@ Verifyで発見されたFindingは、その内容に応じて適切な経路へ�
 - 将来改善の候補
 - 直ちにSpec変更を要しない問題
 
-Issueは、問題を失わず保持するための記録単位である。   
+CR の Issue は、問題を失わず保持するための記録単位である。   
 
 ---
 
-2. GapまたはCRへ返す場合
+2. Gapへ返す場合
 
-以下のようなFindingはGapまたはCRへ返される。   
+以下のようなFindingはGapへ返される。   
 
 - Specそのものの変更が必要である
 - Intentとの整合を保つために仕様修正が必要である
@@ -187,18 +188,6 @@ Issueは、問題を失わず保持するための記録単位である。
 
    Gapは不足や矛盾の整理に用いられ、必要に応じてCRへ接続される。
    CRは承認を経てSpec変更を行うための正式な変更単位である。
-
----
-
-3. Review対象として返す場合
-
-以下のようなFindingはReview対象として保持される。   
-
-- 実装ミスか仕様不足かがまだ確定していない
-- 優先度や採用可否の判断が必要である
-- 仕様変更に進めるべきか追加議論が必要である
-
-Reviewは、Findingを直ちにSpec変更や実装修正へ結び付けず、一度判断を保留するための場として扱われる。   
 
 ---
 
@@ -226,9 +215,7 @@ Verifyは、Intent・Spec・Implの整合性を確認する。
 そのため、VerifyとRuntime Confirmationは明確に分離される。   
 
 - Verifyは整合性を確認する
-- Runtime Confirmationは動作と運用上の妥当性を確認する
-
-Runtime Confirmationの責任はプロジェクト責任者側にあり、Verifyはこれを代替しない。   
+- Runtime Confirmationは動作と運用上の妥当性を確認する 
 
 ---
 
@@ -238,8 +225,7 @@ VerifyはBuild Loopの一部として実行される。
 Build完了後、VerifyによってFindingが検出された場合、内容に応じて次の経路へ接続される。   
 
 - 実装修正が必要であればBuild Loopへ戻る
-- Spec変更が必要であればGapまたはCRへ進む
-- 未確定の懸念であればIssueまたはReviewへ送る
+- Spec変更が必要であればGapへ進む
 
 このとき、Verifyは修正そのものを行わない。   
 Verifyはあくまで問題の所在を明らかにし、適切な次工程へ返すためのレイヤーである。   

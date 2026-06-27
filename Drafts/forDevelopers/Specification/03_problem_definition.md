@@ -192,7 +192,7 @@ Reward Hackingが発生した場合、評価結果は良好であっても、実
 
 AnchorSpecはこれらの問題の完全な解決を目的とするものではない。   
 
-Frozen SpecをSource of Truthとして扱い、   
+FreezeSpecをSource of Truthとして扱い、   
 ビルドプランおよびVerificationのトレーサビリティを維持することで、   
 問題の観測および議論を容易にすることを目的とする。
 

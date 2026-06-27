@@ -51,7 +51,7 @@ AnchorSpecのフルスペック版では以下のスレッドが必須となる�
 - Intent
 - Spec
 - Gap
-- Current
+- Current(Sandbox)
 - Impl
 - ImplGap
 
