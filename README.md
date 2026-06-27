@@ -1,4 +1,20 @@
+MIT License
+PreRelease v2.3
+AI-Native Development Protocol
+
+![AnchorSpec](assets/ogp.png)
+
 # AnchorSpec
+
+🌐 **Official Website:** https://nia-anoma.github.io/AnchorSpec-web/
+
+## What is AnchorSpec?
+
+AnchorSpec is an AI-native development protocol that separates   
+Intent, Specification, Implementation, and Verification into independent responsibilities.   
+
+Instead of asking AI to remember everything correctly,   
+AnchorSpec keeps structural decisions observable, reviewable, and reproducible.   
 
 ### AI-Native Development Protocol
 
@@ -194,6 +210,31 @@ Promotes a ProtoStrand into a formal Strand.
 
 ---
 
+## Workflow
+
+```mermaid
+flowchart TD
+    A[Problem]
+    B[Context Drift]
+    C[Specification Mutation]
+    D[Structural Collapse]
+    E[AnchorSpec]
+    F[Intent]
+    G[Gap]
+    H[CR]
+    I[Spec]
+    J[Impl]
+    K[Verify]
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F --> G --> H --> I --> J --> K
+```
+
+---
+
 ## Anti-Pattern
 
 ### Delegating structure entirely to AI
@@ -258,6 +299,17 @@ Older releases are archived under `old/`.
 
 ---
 
-## License
+## Community
 
-MIT
+🌐 Official Website  
+https://nia-anoma.github.io/AnchorSpec-web/
+
+💬 GitHub Discussions  
+Questions, ideas, and general discussions are welcome.
+
+🐞 GitHub Issues  
+Bug reports, feature requests, and documentation issues.
+
+📧 Contact  
+anchorspec.official@gmail.com
+

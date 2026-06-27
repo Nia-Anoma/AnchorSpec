@@ -1,4 +1,13 @@
-# AnchorSpec v2.3
+MIT License
+PreRelease v2.3
+AI-Native Development Protocol
+
+![AnchorSpec](assets/ogp.png)
+
+# AnchorSpec
+
+🌐 **Official Website:** https://nia-anoma.github.io/AnchorSpec-web/
+
 ## AI-Native Development Protocol
 
 [English README](./README.md)
@@ -223,6 +232,31 @@ ProtoStrand を正式な Strand として確定する。
 
 ---
 
+## ワークフロー
+
+```mermaid
+flowchart TD
+    A[Problem]
+    B[Context Drift]
+    C[Specification Mutation]
+    D[Structural Collapse]
+    E[AnchorSpec]
+    F[Intent]
+    G[Gap]
+    H[CR]
+    I[Spec]
+    J[Impl]
+    K[Verify]
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F --> G --> H --> I --> J --> K
+```
+
+---
+
 ## Anti-Pattern
 
 ## AIに構造を丸投げする
@@ -287,9 +321,16 @@ Older releases are archived under `old/`.
 
 ---
 
-## License
+## Community
 
-MIT
+🌐 Official Website  
+https://nia-anoma.github.io/AnchorSpec-web/
 
----
+💬 GitHub Discussions  
+Questions, ideas, and general discussions are welcome.
 
+🐞 GitHub Issues  
+Bug reports, feature requests, and documentation issues.
+
+📧 Contact  
+anchorspec.official@gmail.com
